@@ -1,0 +1,1 @@
+Adds tools to make map editing easier.
