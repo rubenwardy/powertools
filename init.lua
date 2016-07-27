@@ -6,7 +6,7 @@ minetest.register_craftitem("powertools:down_stack_digger", {
 			local node = minetest.get_node(pointed_thing.under)
 			local pos = pointed_thing.under
 			for i=1, itemstack:get_count() do
-				minetest.dig_node(pos)
+				minetest.set_node(pos, {name="air"})
 				pos.y = pos.y - 1
 			end
 		else
@@ -25,7 +25,7 @@ minetest.register_craftitem("powertools:down_stack_digger_conditional", {
 			if not condition or node.name == condition then
 				local pos = pointed_thing.under
 				for i=1, itemstack:get_count() do
-					minetest.dig_node(pos)
+					minetest.set_node(pos, {name="air"})
 					pos.y = pos.y - 1
 				end
 			else
