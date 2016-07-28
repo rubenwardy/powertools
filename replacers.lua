@@ -1,9 +1,9 @@
 local getStackToTheRight = powertools.getStackToTheRight
 
 minetest.register_craftitem("powertools:replacer_down_column", {
-	description = "Down Column Replacer\n" ..
+	description = "Down Column Replacer", --[[\n" ..
 		"Places tool.stackcount downwards, including punched node\n" ..
-		"Node to be placed is of the type of the itemstack to the right",
+		"Node to be placed is of the type of the itemstack to the right",]]--
 	inventory_image = "powertools_replacer_down_column.png",
 	on_use = function(itemstack, user, pointed_thing)
 		if pointed_thing.type == "node" then
@@ -24,9 +24,9 @@ minetest.register_craftitem("powertools:replacer_down_column", {
 })
 
 minetest.register_craftitem("powertools:replacer_up_column", {
-	description = "Up Column Replacer\n" ..
+	description = "Up Column Replacer", --[[\n" ..
 		"Places tool.stackcount upwards, including punched node\n" ..
-		"Node to be placed is of the type of the itemstack to the right",
+		"Node to be placed is of the type of the itemstack to the right",]]--
 	inventory_image = "powertools_replacer_up_column.png",
 	on_use = function(itemstack, user, pointed_thing)
 		if pointed_thing.type == "node" then

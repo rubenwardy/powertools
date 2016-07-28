@@ -1,7 +1,7 @@
 local getStackToTheRight = powertools.getStackToTheRight
 
 minetest.register_craftitem("powertools:digger_down_column", {
-	description = "Down Column Digger\nDigs tool.stackcount downwards, including punched node",
+	description = "Down Column Digger", --[[\nDigs tool.stackcount downwards, including punched node",]]
 	inventory_image = "powertools_digger_down_column.png",
 	on_use = function(itemstack, user, pointed_thing)
 		if pointed_thing.type == "node" then
@@ -17,9 +17,9 @@ minetest.register_craftitem("powertools:digger_down_column", {
 })
 
 minetest.register_craftitem("powertools:digger_down_column_conditional_start", {
-	description = "Conditional (Start) Down Column Digger\n" ..
+	description = "Conditional (Start) Down Column Digger", --[[\n" ..
 		"Digs tool.stackcount downwards, including punched node\n" ..
-		"Only works if the punched node is the same as the stack to the right of the tool.",
+		"Only works if the punched node is the same as the stack to the right of the tool.",]]
 	inventory_image = "powertools_digger_down_column_conditional_start.png",
 	on_use = function(itemstack, user, pointed_thing)
 		if pointed_thing.type == "node" then
@@ -47,9 +47,9 @@ minetest.register_craftitem("powertools:digger_down_column_conditional_start", {
 })
 
 minetest.register_craftitem("powertools:digger_down_column_conditional_same", {
-	description = "Conditional (Same) Down Column Digger\n" ..
+	description = "Conditional (Same) Down Column Digger", --[[\n" ..
 		"Digs tool.stackcount downwards, including punched node\n" ..
-		"Only removes nodes that are the same as the stack to the right of the tool",
+		"Only removes nodes that are the same as the stack to the right of the tool",]]
 	inventory_image = "powertools_digger_down_column_conditional_same.png",
 	on_use = function(itemstack, user, pointed_thing)
 		if pointed_thing.type == "node" then
