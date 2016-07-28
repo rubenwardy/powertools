@@ -89,7 +89,7 @@ minetest.register_craftitem("powertools:filler_floor", {
 						local toplace_pos = res[i]
 						minetest.set_node(toplace_pos, {name = to_place})
 					end
-						minetest.chat_send_player(user:get_player_name(), "Finished placing floor")
+					minetest.chat_send_player(user:get_player_name(), "Finished placing floor")
 				else
 					minetest.chat_send_player(user:get_player_name(), "Area too large to fill")
 				end
