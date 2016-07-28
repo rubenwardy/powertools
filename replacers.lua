@@ -8,14 +8,15 @@ minetest.register_craftitem("powertools:replacer_down_column", {
 	on_use = function(itemstack, user, pointed_thing)
 		if pointed_thing.type == "node" then
 			local to_place = getStackToTheRight(user)
-			if to_place then
+			if to_place and minetest.registered_nodes[to_place] then
 				local pos = pointed_thing.under
 				for i = 1, itemstack:get_count() do
 					minetest.set_node(pos, {name = to_place})
 					pos.y = pos.y - 1
 				end
 			else
-				minetest.chat_send_player(user:get_player_name(), "Please put a node stack to the right of this tool to set the node to place")
+				minetest.chat_send_player(user:get_player_name(),
+					"Please put a valid node stack to the right of this tool to set the node to place")
 			end
 		else
 			minetest.chat_send_player(user:get_player_name(), "Please punch a node")
@@ -31,14 +32,15 @@ minetest.register_craftitem("powertools:replacer_up_column", {
 	on_use = function(itemstack, user, pointed_thing)
 		if pointed_thing.type == "node" then
 			local to_place = getStackToTheRight(user)
-			if to_place then
+			if to_place and minetest.registered_nodes[to_place] then
 				local pos = pointed_thing.under
 				for i = 1, itemstack:get_count() do
 					minetest.set_node(pos, {name = to_place})
 					pos.y = pos.y + 1
 				end
 			else
-				minetest.chat_send_player(user:get_player_name(), "Please put a node stack to the right of this tool to set the node to place")
+				minetest.chat_send_player(user:get_player_name(),
+					"Please put a valid node stack to the right of this tool to set the node to place")
 			end
 		else
 			minetest.chat_send_player(user:get_player_name(), "Please punch a node")

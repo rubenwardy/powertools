@@ -16,3 +16,4 @@ end
 
 dofile(minetest.get_modpath("powertools") .. "/diggers.lua")
 dofile(minetest.get_modpath("powertools") .. "/replacers.lua")
+dofile(minetest.get_modpath("powertools") .. "/fillers.lua")

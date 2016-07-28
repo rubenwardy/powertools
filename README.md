@@ -25,13 +25,22 @@ itemstack to the right of the tool.
 * **Down Column Replacer** - no condition, works on any punchable node
 * **Up Column Replacer** - works up, rather than down
 
+## Floor Filler
+
+Punch a node. A floor will be placed starting at the node position just before
+the node you punched. So if you punch the side of a wall, a floor will be placed
+at that level. If you punch the top of a node, a floor will be placed
+one node above that node. The material used will be the itemstack to the right.
+Only air is replaced. Each tool in the stack gives you roughly a radius of 10.
+So 5 tools will allow you to build a floor 50 nodes outwards (in a diamond pattern).
+
+* **Floor Filler** - no condition, works on any punchable node
+
 ## TODO
 
 * Return dug items when using Down Column Digger
-* Up column placer / replacer
-* Down column placer / replacer
-* Floor placer - punch a wall, and a floor will be placed at that height until
-  it reaches another wall. Floor material will be that of the itemstack to the right
+* placer/replacer that only places over air
+* up column diggers
 * Honour node protection
 * Survival version
 	* when placing, take from stack to the right.
