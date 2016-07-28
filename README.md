@@ -3,7 +3,7 @@
 Adds tools to make map editing easier.  
 Created by rubenwardy. CC0.
 
-## Down column digger
+## Down Column Digger
 
 Punch a node. The node you punch and stackcount - 1 nodes below it will be dug,
 where stackcount is the stack number of the digger tool.
@@ -14,6 +14,13 @@ There are also conditional versions that only dig if conditions are met.
 	matches the itemstack to the right of the tool (use to stop accidental digging)
 * **Conditional (Same) Down Column Digger** - only digs nodes that are the same
 	as the itemstack to the right of the tool
+
+## Down Column Replacer
+
+Punch a node. The node you punch and stackcount - 1 nodes below it will be
+replaced with nodes of the type of the itemstack to the right of the tool.
+
+* **Down Column Replacer** - no condition, works on any punchable node
 
 ## TODO
 
