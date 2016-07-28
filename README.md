@@ -3,11 +3,12 @@
 Adds tools to make map editing easier.  
 Created by rubenwardy. CC0.
 
-## Down Column Digger
+## Column Digger
 
-Punch a node. The node you punch and stackcount - 1 nodes below it will be dug,
-where stackcount is the stack number of the digger tool.
-There are also conditional versions that only dig if conditions are met.
+Punch a node. The node you punch and stackcount - 1 nodes below
+(or above if up digger) it will be dug, where stackcount is the stack number
+of the digger tool. There are also conditional versions that only dig if
+conditions are met.
 
 * **Down Column Digger** - no conditions, works on any punchable node
 * **Conditional (Start) Down Column Digger** - only works if the punched node
@@ -15,12 +16,14 @@ There are also conditional versions that only dig if conditions are met.
 * **Conditional (Same) Down Column Digger** - only digs nodes that are the same
 	as the itemstack to the right of the tool
 
-## Down Column Replacer
+## Column Replacer
 
-Punch a node. The node you punch and stackcount - 1 nodes below it will be
-replaced with nodes of the type of the itemstack to the right of the tool.
+Punch a node. The node you punch and stackcount - 1 nodes below
+(or above if up digger) it will be replaced with nodes of the type of the
+itemstack to the right of the tool.
 
 * **Down Column Replacer** - no condition, works on any punchable node
+* **Up Column Replacer** - works up, rather than down
 
 ## TODO
 
