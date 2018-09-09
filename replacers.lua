@@ -7,7 +7,7 @@ minetest.register_craftitem("powertools:replacer_down_column", {
 	inventory_image = "powertools_replacer_down_column.png",
 	on_use = function(itemstack, user, pointed_thing)
 		if pointed_thing.type == "node" then
-			local to_place = getStackToTheRight(user)
+			local to_place = getStackToTheRight(user):get_name()
 			if to_place and minetest.registered_nodes[to_place] then
 				local pos = pointed_thing.under
 				for i = 1, itemstack:get_count() do
@@ -31,7 +31,7 @@ minetest.register_craftitem("powertools:replacer_up_column", {
 	inventory_image = "powertools_replacer_up_column.png",
 	on_use = function(itemstack, user, pointed_thing)
 		if pointed_thing.type == "node" then
-			local to_place = getStackToTheRight(user)
+			local to_place = getStackToTheRight(user):get_name()
 			if to_place and minetest.registered_nodes[to_place] then
 				local pos = pointed_thing.under
 				for i = 1, itemstack:get_count() do
