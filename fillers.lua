@@ -4,7 +4,7 @@ local setStackToTheRight = powertools.setStackToTheRight
 local creative_mode = minetest.setting_getbool("creative_mode")
 
 function is_fillable(node_name)
-	return node_name == "air" or node_name == "default:water_flowing" or node_name == "default:water_source"
+	return node_name == "air" or node_name == "default:water_flowing" or node_name == "default:water_source" or node_name == "default:lava" or node_name == "default:lava_source"
 end
 
 -- todo: crafting
@@ -99,14 +99,11 @@ minetest.register_craftitem("powertools:filler_floor", {
 							break
 						else
 							if is_fillable(minetest.get_node(toplace_pos).name) then
-								-- was `set node`
-								minetest.place_node(toplace_pos, {name = to_place:get_name()})
+								minetest.set_node(toplace_pos, {name = to_place:get_name()})
 								to_place:take_item()
 							end
-							-- print("taking item, " .. to_place:get_count() .. " left, at " .. dump(toplace_pos))
 						end
 					end
-					-- print("setting back " .. to_place:get_count())
 					if not creative_mode then setStackToTheRight(user, to_place) end
 					minetest.chat_send_player(user:get_player_name(), "Finished placing floor")
 				else
@@ -148,7 +145,7 @@ minetest.register_craftitem("powertools:filler_row", {
 	inventory_image = "powertools_filler_row.png",
 	on_use = function(itemstack, user, pointed_thing)
 		if pointed_thing.type == "node" then
-			local length = 4
+			local length = itemstack:get_count()
 			local to_place = getStackToTheRight(user)
 			if to_place and minetest.registered_nodes[to_place:get_name()] then
 				local looking_vec = fake_normalize(user:get_look_dir())
@@ -159,7 +156,7 @@ minetest.register_craftitem("powertools:filler_row", {
 					if (not creative_mode) and (to_place:get_count() <= 0) then 
 						break
 					else
-						print("placing at " .. dump(p))
+						-- print("placing at " .. dump(p))
 						if is_fillable(minetest.get_node(p).name) then
 							to_place:take_item()
 							minetest.set_node(p, {name = to_place_name})
@@ -167,7 +164,7 @@ minetest.register_craftitem("powertools:filler_row", {
 						p = vector.add(p, looking_vec)
 					end
 				end
-				print("setting back " .. to_place:get_count())
+				-- print("setting back " .. to_place:get_count())
 				if not creative_mode then setStackToTheRight(user, to_place) end
 			else
 				minetest.chat_send_player(user:get_player_name(),
@@ -177,4 +174,21 @@ minetest.register_craftitem("powertools:filler_row", {
 			minetest.chat_send_player(user:get_player_name(), "Please punch a node")
 		end
 	end
+})
+minetest.register_craft({
+	output = "powertools:filler_row",
+	recipe = {
+		{"default:gold_ingot", "default:gold_ingot", "default:gold_ingot"},
+		{"default:emerald", "default:sapphire", "default:emerald"},
+		{"default:mese_crystal", "default:mese_crystal", "default:mese_crystal"}
+	}
+})
+
+minetest.register_craft({
+	output = "powertools:filler_floor",
+	recipe = {
+		{"default:gold_ingot", "default:gold_ingot", "default:gold_ingot"},
+		{"default:sapphire", "default:diamond", "default:sapphire"},
+		{"default:mese_crystal", "default:mese_crystal", "default:mese_crystal"}
+	}
 })
