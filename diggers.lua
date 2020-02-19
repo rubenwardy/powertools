@@ -23,7 +23,7 @@ minetest.register_craftitem("powertools:digger_down_column_conditional_start", {
 	inventory_image = "powertools_digger_down_column_conditional_start.png",
 	on_use = function(itemstack, user, pointed_thing)
 		if pointed_thing.type == "node" then
-			local condition = getStackToTheRight(user)
+			local condition = getStackToTheRight(user):get_name()
 			print(dump(condition))
 			local node = minetest.get_node(pointed_thing.under)
 			if not condition then
@@ -53,7 +53,7 @@ minetest.register_craftitem("powertools:digger_down_column_conditional_same", {
 	inventory_image = "powertools_digger_down_column_conditional_same.png",
 	on_use = function(itemstack, user, pointed_thing)
 		if pointed_thing.type == "node" then
-			local condition = getStackToTheRight(user)
+			local condition = getStackToTheRight(user):get_name()
 			if condition then
 				local pos = pointed_thing.under
 				for i=1, itemstack:get_count() do

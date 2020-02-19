@@ -1,5 +1,13 @@
 local getStackToTheRight = powertools.getStackToTheRight
+local setStackToTheRight = powertools.setStackToTheRight
 
+local creative_mode = minetest.setting_getbool("creative_mode")
+
+function is_fillable(node_name)
+	return node_name == "air" or node_name == "default:water_flowing" or node_name == "default:water_source" or node_name == "default:lava" or node_name == "default:lava_source"
+end
+
+-- todo: crafting
 local function spreadFloor(start_pos, r)
 	local res = {
 		node_checked = {},
@@ -31,7 +39,7 @@ local function spreadFloor(start_pos, r)
 			return false
 		else
 			local node = minetest.get_node(pos)
-			if node.name == "air" then
+			if is_fillable(node.name) then
 				res:addFill(pos)
 
 				local newpos = {x = pos.x - 1, y = pos.y, z = pos.z}
@@ -73,12 +81,12 @@ local function spreadFloor(start_pos, r)
 end
 
 minetest.register_craftitem("powertools:filler_floor", {
-	description = "Floor Filler", --[[\nDigs tool.stackcount downwards, including punched node",]]
+	description = "Floor Filler", 
 	inventory_image = "powertools_filler_floor.png",
 	on_use = function(itemstack, user, pointed_thing)
 		if pointed_thing.type == "node" then
 			local to_place = getStackToTheRight(user)
-			if to_place and minetest.registered_nodes[to_place] then
+			if to_place and minetest.registered_nodes[to_place:get_name()] then
 				local pos = pointed_thing.above
 				local res = spreadFloor(pos, 15 * itemstack:get_count())
 				-- to turn a radius of 10 into a manhattan radius:
@@ -87,8 +95,16 @@ minetest.register_craftitem("powertools:filler_floor", {
 				if res then
 					for i = 1, #res do
 						local toplace_pos = res[i]
-						minetest.set_node(toplace_pos, {name = to_place})
+						if (not creative_mode) and (to_place:get_count() <= 0) then 
+							break
+						else
+							if is_fillable(minetest.get_node(toplace_pos).name) then
+								minetest.set_node(toplace_pos, {name = to_place:get_name()})
+								to_place:take_item()
+							end
+						end
 					end
+					if not creative_mode then setStackToTheRight(user, to_place) end
 					minetest.chat_send_player(user:get_player_name(), "Finished placing floor")
 				else
 					minetest.chat_send_player(user:get_player_name(), "Area too large to fill")
@@ -101,4 +117,78 @@ minetest.register_craftitem("powertools:filler_floor", {
 			minetest.chat_send_player(user:get_player_name(), "Please punch a node")
 		end
 	end
+})
+
+function fake_normalize(vec)
+	--print("fake_normalize " .. dump(vec))
+	local absx = math.abs(vec.x)
+	local absz = math.abs(vec.z)
+	if absx > absz then
+		vec.z = 0
+		if absx ~= 0 then
+			vec.x = vec.x / absx
+		end
+	else
+		vec.x = 0
+		if absz ~= 0 then
+			vec.z = vec.z / absz
+		end
+	end
+	vec.y = 0
+
+	--print("returning " .. dump(vec))
+	return vec
+end
+
+minetest.register_craftitem("powertools:filler_row", {
+	description = "Row Filler",
+	inventory_image = "powertools_filler_row.png",
+	on_use = function(itemstack, user, pointed_thing)
+		if pointed_thing.type == "node" then
+			local length = itemstack:get_count()
+			local to_place = getStackToTheRight(user)
+			if to_place and minetest.registered_nodes[to_place:get_name()] then
+				local looking_vec = fake_normalize(user:get_look_dir())
+				local p = pointed_thing.under
+				local to_place_name = to_place:get_name()
+
+				for i = 1,length do
+					if (not creative_mode) and (to_place:get_count() <= 0) then 
+						break
+					else
+						-- print("placing at " .. dump(p))
+						if is_fillable(minetest.get_node(p).name) then
+							to_place:take_item()
+							minetest.set_node(p, {name = to_place_name})
+						end
+						p = vector.add(p, looking_vec)
+					end
+				end
+				-- print("setting back " .. to_place:get_count())
+				if not creative_mode then setStackToTheRight(user, to_place) end
+			else
+				minetest.chat_send_player(user:get_player_name(),
+					"Please put a valid node stack to the right of this tool to set the node to place")
+			end
+		else
+			minetest.chat_send_player(user:get_player_name(), "Please punch a node")
+		end
+	end
+})
+minetest.register_craft({
+	output = "powertools:filler_row",
+	recipe = {
+		{"default:gold_ingot", "default:gold_ingot", "default:gold_ingot"},
+		{"default:emerald", "default:sapphire", "default:emerald"},
+		{"default:mese_crystal", "default:mese_crystal", "default:mese_crystal"}
+	}
+})
+
+minetest.register_craft({
+	output = "powertools:filler_floor",
+	recipe = {
+		{"default:gold_ingot", "default:gold_ingot", "default:gold_ingot"},
+		{"default:sapphire", "default:diamond", "default:sapphire"},
+		{"default:mese_crystal", "default:mese_crystal", "default:mese_crystal"}
+	}
 })
